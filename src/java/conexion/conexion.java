@@ -20,22 +20,25 @@ public class conexion {
             "jdbc:postgresql://localhost:5434/PwJoyeriaAurum";
 
     private static final String USUARIO = "postgres";
-    private static final String CONTRASENA = "TU_CONTRASEÑA";
+    private static final String CONTRASENA = "2005";
 
     public static Connection conectar() {
 
-        try {
-            Connection conexion = DriverManager.getConnection(
-                    URL, USUARIO, CONTRASENA
-            );
+    try {
+        Class.forName("org.postgresql.Driver");
 
-            System.out.println("Conexion exitosa a PostgreSQL");
-            return conexion;
+        Connection conexion = DriverManager.getConnection(
+                URL, USUARIO, CONTRASENA
+        );
 
-        } catch (SQLException e) {
-            System.out.println("Error al conectar con PostgreSQL");
-            e.printStackTrace();
-            return null;
-        }
+        System.out.println("Conexion exitosa a PostgreSQL");
+        return conexion;
+
+    } catch (Exception e) {
+        System.out.println("Error al conectar con PostgreSQL");
+        System.out.println("DETALLE: " + e.getMessage());
+        e.printStackTrace();
+        return null;
     }
+}
 }
