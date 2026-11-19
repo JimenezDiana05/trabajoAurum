@@ -20,7 +20,7 @@ import java.util.List;
 
 public class categoriaDAO {
 
-    // INSERTAR un registro. El ID se genera automaticamente en PostgreSQL.
+    // INSERTAR un registro. 
     public boolean insertar(categoria objeto) {
         String sql = "INSERT INTO categoria (nombre, descripcion) VALUES (?, ?)";
 

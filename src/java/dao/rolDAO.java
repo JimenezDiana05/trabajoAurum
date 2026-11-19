@@ -20,7 +20,7 @@ import java.util.List;
 
 public class rolDAO {
 
-    // INSERTAR un registro. El ID se genera automaticamente en PostgreSQL.
+    // INSERTAR un registro. 
     public boolean insertar(rol objeto) {
         String sql = "INSERT INTO rol (tipo, permisos) VALUES (?, ?)";
 

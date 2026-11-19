@@ -21,7 +21,7 @@ import java.math.BigDecimal;
 
 public class detalle_pedidoDAO {
 
-    // INSERTAR un registro. El ID se genera automaticamente en PostgreSQL.
+    // INSERTAR un registro. 
     public boolean insertar(detalle_pedido objeto) {
         String sql = "INSERT INTO detalle_pedido (id_pedido, id_producto, precio) VALUES (?, ?, ?)";
 

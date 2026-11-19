@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
 
 public class envioDAO {
 
-    // INSERTAR un registro. El ID se genera automaticamente en PostgreSQL.
+    // INSERTAR un registro.
     public boolean insertar(envio objeto) {
         String sql = "INSERT INTO envio (id_pedido, id_direccion, fecha_envio, empresa, num_pedido, fecha_entrega) VALUES (?, ?, ?, ?, ?, ?)";
 

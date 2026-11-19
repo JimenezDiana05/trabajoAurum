@@ -22,7 +22,7 @@ import java.math.BigDecimal;
 
 public class pagoDAO {
 
-    // INSERTAR un registro. El ID se genera automaticamente en PostgreSQL.
+    // INSERTAR un registro. 
     public boolean insertar(pago objeto) {
         String sql = "INSERT INTO pago (id_pedido, fecha_pago, monto, tipo) VALUES (?, ?, ?, ?)";
 

@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
 
 public class usuarioDAO {
 
-    // INSERTAR un registro. El ID se genera automaticamente en PostgreSQL.
+    // INSERTAR un registro. 
     public boolean insertar(usuario objeto) {
         String sql = "INSERT INTO usuario (fecha_creacion, contrasena, id_rol, id_cliente, estado) VALUES (?, ?, ?, ?, ?)";
 

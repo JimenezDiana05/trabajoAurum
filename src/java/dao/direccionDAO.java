@@ -20,7 +20,7 @@ import java.util.List;
 
 public class direccionDAO {
 
-    // INSERTAR un registro. El ID se genera automaticamente en PostgreSQL.
+    // INSERTAR un registro. 
     public boolean insertar(direccion objeto) {
         String sql = "INSERT INTO direccion (id_cliente, calle, numero, colonia, cp, ciudad, estado, referencias) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
