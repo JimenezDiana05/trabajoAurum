@@ -3,21 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/jimen/OneDrive/Documents/NetBeansProjects/trabajo/web/usuarios.jsp</file>
-            <file>file:/C:/Users/jimen/OneDrive/Documents/NetBeansProjects/trabajo/web/javaa.js</file>
-            <file>file:/C:/Users/jimen/OneDrive/Documents/NetBeansProjects/trabajo/web/index.html</file>
-            <file>file:/C:/Users/jimen/OneDrive/Documents/NetBeansProjects/trabajo/src/java/conexion/conexion.java</file>
-            <file>file:/C:/Users/jimen/OneDrive/Documents/NetBeansProjects/trabajo/src/java/modelo/cliente.java</file>
-            <file>file:/C:/Users/jimen/OneDrive/Documents/NetBeansProjects/trabajo/src/java/modelo/direccion.java</file>
-            <file>file:/C:/Users/jimen/OneDrive/Documents/NetBeansProjects/trabajo/src/java/modelo/usuario.java</file>
-            <file>file:/C:/Users/jimen/OneDrive/Documents/NetBeansProjects/trabajo/src/java/modelo/rol.java</file>
-            <file>file:/C:/Users/jimen/OneDrive/Documents/NetBeansProjects/trabajo/src/java/modelo/pedido.java</file>
-            <file>file:/C:/Users/jimen/OneDrive/Documents/NetBeansProjects/trabajo/src/java/modelo/detalle_pedido.java</file>
-            <file>file:/C:/Users/jimen/OneDrive/Documents/NetBeansProjects/trabajo/src/java/modelo/producto.java</file>
-            <file>file:/C:/Users/jimen/OneDrive/Documents/NetBeansProjects/trabajo/src/java/modelo/categoria.java</file>
-            <file>file:/C:/Users/jimen/OneDrive/Documents/NetBeansProjects/trabajo/src/java/modelo/pago.java</file>
-            <file>file:/C:/Users/jimen/OneDrive/Documents/NetBeansProjects/trabajo/src/java/modelo/envio.java</file>
-            <file>file:/C:/Users/jimen/OneDrive/Documents/NetBeansProjects/trabajo/src/java/dao/clienteDAO.java</file>
+            <file>file:/C:/Users/jimen/OneDrive/Documents/NetBeansProjects/trabajo/src/java/dao/usuarioDAO.java</file>
+            <file>file:/C:/Users/jimen/OneDrive/Documents/NetBeansProjects/trabajo/src/java/servlets/CategoriaServlet.java</file>
+            <file>file:/C:/Users/jimen/OneDrive/Documents/NetBeansProjects/trabajo/src/java/servlets/ClienteServlet.java</file>
+            <file>file:/C:/Users/jimen/OneDrive/Documents/NetBeansProjects/trabajo/src/java/dao/categoriaDAO.java</file>
+            <file>file:/C:/Users/jimen/OneDrive/Documents/NetBeansProjects/trabajo/src/java/servlets/UsuarioServlet.java</file>
         </group>
     </open-files>
 </project-private>

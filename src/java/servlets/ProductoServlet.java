@@ -5,48 +5,219 @@
 
 package servlets;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import dao.productoDAO;
 import modelo.producto;
+
+import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @WebServlet(name = "ProductoServlet", urlPatterns = {"/api/productos"})
-public class ProductoServlet extends BaseServlet<producto> {
+public class ProductoServlet extends HttpServlet {
 
     private final productoDAO dao = new productoDAO();
+    private final ObjectMapper mapper = new ObjectMapper();
 
-    @Override
-    protected Class<producto> obtenerTipo() {
-        return producto.class;
+    private void configurarRespuesta(HttpServletResponse response) {
+        response.setContentType("application/json;charset=UTF-8");
     }
 
-    @Override
-    protected void asignarId(producto objeto, int id) {
-        objeto.setId_producto(id);
+    private int obtenerId(HttpServletRequest request) {
+        String id = request.getParameter("id");
+        if (id == null || id.isEmpty()) return -1;
+
+        try {
+            return Integer.parseInt(id);
+        } catch (NumberFormatException e) {
+            return -1;
+        }
     }
 
+    // GET: consultar todos los productos o buscar uno por ID
     @Override
-    protected boolean insertar(producto objeto) {
-        return dao.insertar(objeto);
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        configurarRespuesta(response);
+        int id = obtenerId(request);
+
+        if (request.getParameter("id") != null) {
+            if (id <= 0) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                mapper.writeValue(response.getWriter(),
+                        Map.of("mensaje", "El ID proporcionado no es válido."));
+                return;
+            }
+
+            producto p = dao.buscarPorId(id);
+
+            if (p != null) {
+                mapper.writeValue(response.getWriter(), p);
+            } else {
+                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                mapper.writeValue(response.getWriter(),
+                        Map.of("mensaje", "Producto no encontrado."));
+            }
+        } else {
+            List<producto> productos = dao.listar();
+            mapper.writeValue(response.getWriter(), productos);
+        }
     }
 
+    // POST: registrar un producto
     @Override
-    protected List<producto> listar() {
-        return dao.listar();
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        configurarRespuesta(response);
+
+        try {
+            producto p = mapper.readValue(request.getInputStream(), producto.class);
+
+            if (dao.insertar(p)) {
+                response.setStatus(HttpServletResponse.SC_CREATED);
+                mapper.writeValue(response.getWriter(),
+                        Map.of("mensaje", "Producto registrado correctamente."));
+            } else {
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                mapper.writeValue(response.getWriter(),
+                        Map.of("mensaje", "No se pudo registrar el producto."));
+            }
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            mapper.writeValue(response.getWriter(),
+                    Map.of("mensaje", "Los datos enviados no tienen un formato válido."));
+        }
     }
 
-    @Override
-    protected producto buscarPorId(int id) {
-        return dao.buscarPorId(id);
+    // PATCH: modificar solamente los datos enviados
+    protected void doPatch(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        configurarRespuesta(response);
+        int id = obtenerId(request);
+
+        if (id <= 0) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            mapper.writeValue(response.getWriter(),
+                    Map.of("mensaje", "Debes proporcionar un ID válido."));
+            return;
+        }
+
+        try {
+            producto existente = dao.buscarPorId(id);
+
+            if (existente == null) {
+                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                mapper.writeValue(response.getWriter(),
+                        Map.of("mensaje", "Producto no encontrado."));
+                return;
+            }
+
+            producto actualizado = mapper.readerForUpdating(existente)
+                    .readValue(request.getInputStream());
+
+            actualizado.setId_producto(id);
+
+            if (dao.actualizar(actualizado)) {
+                mapper.writeValue(response.getWriter(),
+                        Map.of("mensaje", "Producto modificado parcialmente."));
+            } else {
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                mapper.writeValue(response.getWriter(),
+                        Map.of("mensaje", "No se pudo modificar el producto."));
+            }
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            mapper.writeValue(response.getWriter(),
+                    Map.of("mensaje", "No se pudieron procesar los datos enviados."));
+        }
     }
 
+    // PUT: reemplazar los datos del producto
     @Override
-    protected boolean actualizar(producto objeto) {
-        return dao.actualizar(objeto);
+    protected void doPut(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        configurarRespuesta(response);
+        int id = obtenerId(request);
+
+        if (id <= 0) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            mapper.writeValue(response.getWriter(),
+                    Map.of("mensaje", "Debes proporcionar un ID válido."));
+            return;
+        }
+
+        try {
+            producto existente = dao.buscarPorId(id);
+
+            if (existente == null) {
+                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                mapper.writeValue(response.getWriter(),
+                        Map.of("mensaje", "Producto no encontrado."));
+                return;
+            }
+
+            producto p = mapper.readValue(request.getInputStream(), producto.class);
+            p.setId_producto(id);
+
+            if (dao.actualizar(p)) {
+                mapper.writeValue(response.getWriter(),
+                        Map.of("mensaje", "Producto actualizado correctamente."));
+            } else {
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                mapper.writeValue(response.getWriter(),
+                        Map.of("mensaje", "No se pudo actualizar el producto."));
+            }
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            mapper.writeValue(response.getWriter(),
+                    Map.of("mensaje", "Los datos enviados no tienen un formato válido."));
+        }
     }
 
+    // DELETE: eliminar un producto
     @Override
-    protected boolean eliminar(int id) {
-        return dao.eliminar(id);
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        configurarRespuesta(response);
+        int id = obtenerId(request);
+
+        if (id <= 0) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            mapper.writeValue(response.getWriter(),
+                    Map.of("mensaje", "Debes proporcionar un ID válido."));
+            return;
+        }
+
+        if (dao.eliminar(id)) {
+            mapper.writeValue(response.getWriter(),
+                    Map.of("mensaje", "Producto eliminado correctamente."));
+        } else {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            mapper.writeValue(response.getWriter(),
+                    Map.of("mensaje", "No se encontró el producto o no pudo eliminarse."));
+        }
+    }
+
+    // Habilitar PATCH
+    @Override
+    protected void service(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        if ("PATCH".equalsIgnoreCase(request.getMethod())) {
+            doPatch(request, response);
+        } else {
+            super.service(request, response);
+        }
     }
 }

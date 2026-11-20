@@ -5,49 +5,243 @@
 
 package servlets;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import dao.pedidoDAO;
 import modelo.pedido;
+
+import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @WebServlet(name = "PedidoServlet", urlPatterns = {"/api/pedidos"})
-public class PedidoServlet extends BaseServlet<pedido> {
+public class PedidoServlet extends HttpServlet {
 
     private final pedidoDAO dao = new pedidoDAO();
+    private final ObjectMapper mapper = new ObjectMapper()
+            .registerModule(new JavaTimeModule());
 
-    @Override
-    protected Class<pedido> obtenerTipo() {
-        return pedido.class;
+    private void configurarRespuesta(HttpServletResponse response) {
+        response.setContentType("application/json;charset=UTF-8");
     }
 
-    @Override
-    protected void asignarId(pedido objeto, int id) {
-        objeto.setId_pedido(id);
+    private int obtenerId(HttpServletRequest request) {
+        String id = request.getParameter("id");
+        if (id == null || id.isEmpty()) return -1;
+
+        try {
+            return Integer.parseInt(id);
+        } catch (NumberFormatException e) {
+            return -1;
+        }
     }
 
+    // GET: consultar todos los pedidos o buscar uno por ID
     @Override
-    protected boolean insertar(pedido objeto) {
-        return dao.insertar(objeto);
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        configurarRespuesta(response);
+        int id = obtenerId(request);
+
+        if (request.getParameter("id") != null) {
+            if (id <= 0) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                mapper.writeValue(response.getWriter(),
+                        Map.of("mensaje", "El ID proporcionado no es válido."));
+                return;
+            }
+
+            pedido p = dao.buscarPorId(id);
+
+            if (p != null) {
+                mapper.writeValue(response.getWriter(), p);
+            } else {
+                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                mapper.writeValue(response.getWriter(),
+                        Map.of("mensaje", "Pedido no encontrado."));
+            }
+        } else {
+            List<pedido> pedidos = dao.listar();
+            mapper.writeValue(response.getWriter(), pedidos);
+        }
     }
 
+    // POST: registrar un pedido
     @Override
-    protected List<pedido> listar() {
-        return dao.listar();
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        configurarRespuesta(response);
+
+        try {
+            pedido p = mapper.readValue(request.getInputStream(), pedido.class);
+
+            if (p.getFecha_pedido() == null) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                mapper.writeValue(response.getWriter(),
+                        Map.of("mensaje", "La fecha del pedido es obligatoria."));
+                return;
+            }
+
+            if (dao.insertar(p)) {
+                response.setStatus(HttpServletResponse.SC_CREATED);
+                mapper.writeValue(response.getWriter(),
+                        Map.of("mensaje", "Pedido registrado correctamente."));
+            } else {
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                mapper.writeValue(response.getWriter(),
+                        Map.of("mensaje", "No se pudo registrar el pedido."));
+            }
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            mapper.writeValue(response.getWriter(),
+                    Map.of("mensaje", "Los datos enviados no tienen un formato válido."));
+        }
     }
 
-    @Override
-    protected pedido buscarPorId(int id) {
-        return dao.buscarPorId(id);
+    // PATCH: modificar solamente los datos enviados
+    protected void doPatch(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        configurarRespuesta(response);
+        int id = obtenerId(request);
+
+        if (id <= 0) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            mapper.writeValue(response.getWriter(),
+                    Map.of("mensaje", "Debes proporcionar un ID válido."));
+            return;
+        }
+
+        try {
+            pedido existente = dao.buscarPorId(id);
+
+            if (existente == null) {
+                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                mapper.writeValue(response.getWriter(),
+                        Map.of("mensaje", "Pedido no encontrado."));
+                return;
+            }
+
+            pedido actualizado = mapper.readerForUpdating(existente)
+                    .readValue(request.getInputStream());
+
+            actualizado.setId_pedido(id);
+
+            if (actualizado.getFecha_pedido() == null) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                mapper.writeValue(response.getWriter(),
+                        Map.of("mensaje", "La fecha del pedido es obligatoria."));
+                return;
+            }
+
+            if (dao.actualizar(actualizado)) {
+                mapper.writeValue(response.getWriter(),
+                        Map.of("mensaje", "Pedido modificado parcialmente."));
+            } else {
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                mapper.writeValue(response.getWriter(),
+                        Map.of("mensaje", "No se pudo modificar el pedido."));
+            }
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            mapper.writeValue(response.getWriter(),
+                    Map.of("mensaje", "No se pudieron procesar los datos enviados."));
+        }
     }
 
+    // PUT: reemplazar los datos del pedido
     @Override
-    protected boolean actualizar(pedido objeto) {
-        return dao.actualizar(objeto);
+    protected void doPut(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        configurarRespuesta(response);
+        int id = obtenerId(request);
+
+        if (id <= 0) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            mapper.writeValue(response.getWriter(),
+                    Map.of("mensaje", "Debes proporcionar un ID válido."));
+            return;
+        }
+
+        try {
+            pedido existente = dao.buscarPorId(id);
+
+            if (existente == null) {
+                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                mapper.writeValue(response.getWriter(),
+                        Map.of("mensaje", "Pedido no encontrado."));
+                return;
+            }
+
+            pedido p = mapper.readValue(request.getInputStream(), pedido.class);
+            p.setId_pedido(id);
+
+            if (p.getFecha_pedido() == null) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                mapper.writeValue(response.getWriter(),
+                        Map.of("mensaje", "La fecha del pedido es obligatoria."));
+                return;
+            }
+
+            if (dao.actualizar(p)) {
+                mapper.writeValue(response.getWriter(),
+                        Map.of("mensaje", "Pedido actualizado correctamente."));
+            } else {
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                mapper.writeValue(response.getWriter(),
+                        Map.of("mensaje", "No se pudo actualizar el pedido."));
+            }
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            mapper.writeValue(response.getWriter(),
+                    Map.of("mensaje", "Los datos enviados no tienen un formato válido."));
+        }
     }
 
+    // DELETE: eliminar un pedido
     @Override
-    protected boolean eliminar(int id) {
-        return dao.eliminar(id);
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        configurarRespuesta(response);
+        int id = obtenerId(request);
+
+        if (id <= 0) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            mapper.writeValue(response.getWriter(),
+                    Map.of("mensaje", "Debes proporcionar un ID válido."));
+            return;
+        }
+
+        if (dao.eliminar(id)) {
+            mapper.writeValue(response.getWriter(),
+                    Map.of("mensaje", "Pedido eliminado correctamente."));
+        } else {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            mapper.writeValue(response.getWriter(),
+                    Map.of("mensaje", "No se encontró el pedido o no pudo eliminarse."));
+        }
+    }
+
+    // Habilitar PATCH
+    @Override
+    protected void service(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        if ("PATCH".equalsIgnoreCase(request.getMethod())) {
+            doPatch(request, response);
+        } else {
+            super.service(request, response);
+        }
     }
 }
 
