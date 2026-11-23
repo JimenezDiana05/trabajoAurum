@@ -114,6 +114,33 @@ public class usuarioDAO {
             return false;
         }
     }
+    // BUSCAR USUARIO POR CORREO ELECTRONICO
+public usuario buscarPorCorreo(String correo) {
+    String sql = "SELECT u.* "
+            + "FROM usuario u "
+            + "INNER JOIN cliente c ON u.id_cliente = c.id_cliente "
+            + "WHERE LOWER(TRIM(c.correo)) = LOWER(TRIM(?))";
+
+    try (Connection con = conexion.conectar()) {
+        if (con == null) {
+            return null;
+        }
+
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, correo);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return mapear(rs);
+                }
+            }
+        }
+    } catch (SQLException e) {
+        System.out.println("Error al buscar usuario por correo: " + e.getMessage());
+    }
+
+    return null;
+}
 
     private usuario mapear(ResultSet rs) throws SQLException {
         usuario objeto = new usuario();

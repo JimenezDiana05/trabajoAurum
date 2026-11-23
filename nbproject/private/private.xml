@@ -8,6 +8,13 @@
             <file>file:/C:/Users/jimen/OneDrive/Documents/NetBeansProjects/trabajo/src/java/servlets/ClienteServlet.java</file>
             <file>file:/C:/Users/jimen/OneDrive/Documents/NetBeansProjects/trabajo/src/java/dao/categoriaDAO.java</file>
             <file>file:/C:/Users/jimen/OneDrive/Documents/NetBeansProjects/trabajo/src/java/servlets/UsuarioServlet.java</file>
+            <file>file:/C:/Users/jimen/OneDrive/Documents/NetBeansProjects/trabajo/src/java/servlets/DetallePedidoServlet.java</file>
+            <file>file:/C:/Users/jimen/OneDrive/Documents/NetBeansProjects/trabajo/src/java/servlets/DireccionServlet.java</file>
+            <file>file:/C:/Users/jimen/OneDrive/Documents/NetBeansProjects/trabajo/src/java/servlets/EnvioServlet.java</file>
+            <file>file:/C:/Users/jimen/OneDrive/Documents/NetBeansProjects/trabajo/src/java/servlets/PagoServlet.java</file>
+            <file>file:/C:/Users/jimen/OneDrive/Documents/NetBeansProjects/trabajo/src/java/servlets/PedidoServlet.java</file>
+            <file>file:/C:/Users/jimen/OneDrive/Documents/NetBeansProjects/trabajo/src/java/servlets/ProductoServlet.java</file>
+            <file>file:/C:/Users/jimen/OneDrive/Documents/NetBeansProjects/trabajo/src/java/servlets/RolServlet.java</file>
         </group>
     </open-files>
 </project-private>

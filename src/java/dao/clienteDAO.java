@@ -76,6 +76,7 @@ public class clienteDAO {
 
         return lista;
     }
+    
 
     // BUSCAR CLIENTE POR ID
     public cliente buscarPorId(int id) {

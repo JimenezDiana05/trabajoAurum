@@ -3,12 +3,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
+
 package servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import dao.usuarioDAO;
 import modelo.usuario;
+import Componentes.Password;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -24,6 +26,7 @@ import java.util.Map;
 public class UsuarioServlet extends HttpServlet {
 
     private final usuarioDAO dao = new usuarioDAO();
+
     private final ObjectMapper mapper = new ObjectMapper()
             .registerModule(new JavaTimeModule());
 
@@ -33,7 +36,10 @@ public class UsuarioServlet extends HttpServlet {
 
     private int obtenerId(HttpServletRequest request) {
         String id = request.getParameter("id");
-        if (id == null || id.isEmpty()) return -1;
+
+        if (id == null || id.isEmpty()) {
+            return -1;
+        }
 
         try {
             return Integer.parseInt(id);
@@ -42,75 +48,106 @@ public class UsuarioServlet extends HttpServlet {
         }
     }
 
-    // GET: consultar todos los usuarios o buscar uno por ID
+    // Evitar enviar contraseñas y hashes en las respuestas.
+    private void ocultarContrasena(usuario u) {
+        if (u != null) {
+            u.setContrasena(null);
+        }
+    }
+
+    // GET: consultar usuarios o buscar por ID.
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void doGet(HttpServletRequest request,
+            HttpServletResponse response)
             throws ServletException, IOException {
 
         configurarRespuesta(response);
+
         int id = obtenerId(request);
 
         if (request.getParameter("id") != null) {
+
             if (id <= 0) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 mapper.writeValue(response.getWriter(),
-                        Map.of("mensaje", "El ID proporcionado no es válido."));
+                        Map.of("mensaje", "El ID no es válido."));
                 return;
             }
 
             usuario u = dao.buscarPorId(id);
 
             if (u != null) {
+                ocultarContrasena(u);
                 mapper.writeValue(response.getWriter(), u);
             } else {
                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);
                 mapper.writeValue(response.getWriter(),
                         Map.of("mensaje", "Usuario no encontrado."));
             }
+
         } else {
+
             List<usuario> usuarios = dao.listar();
+
+            usuarios.forEach(this::ocultarContrasena);
+
             mapper.writeValue(response.getWriter(), usuarios);
         }
     }
 
-    // POST: registrar un usuario
+    // POST: registrar usuario con contraseña protegida.
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest request,
+            HttpServletResponse response)
             throws ServletException, IOException {
 
         configurarRespuesta(response);
 
         try {
-            usuario u = mapper.readValue(request.getInputStream(), usuario.class);
+            usuario u = mapper.readValue(
+                    request.getInputStream(), usuario.class);
 
-            if (u.getFecha_creacion() == null) {
+            if (u.getFecha_creacion() == null
+                    || u.getContrasena() == null
+                    || u.getContrasena().isBlank()) {
+
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 mapper.writeValue(response.getWriter(),
-                        Map.of("mensaje", "La fecha de creación es obligatoria."));
+                        Map.of("mensaje",
+                                "La fecha y la contraseña son obligatorias."));
                 return;
             }
+
+            u.setContrasena(Password.encriptar(u.getContrasena()));
 
             if (dao.insertar(u)) {
                 response.setStatus(HttpServletResponse.SC_CREATED);
                 mapper.writeValue(response.getWriter(),
-                        Map.of("mensaje", "Usuario registrado correctamente."));
+                        Map.of("mensaje",
+                                "Usuario registrado correctamente."));
             } else {
-                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                response.setStatus(
+                        HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 mapper.writeValue(response.getWriter(),
-                        Map.of("mensaje", "No se pudo registrar el usuario."));
+                        Map.of("mensaje",
+                                "No se pudo registrar el usuario."));
             }
+
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             mapper.writeValue(response.getWriter(),
-                    Map.of("mensaje", "Los datos enviados no tienen un formato válido."));
+                    Map.of("mensaje",
+                            "No se pudieron procesar los datos enviados."));
         }
     }
 
-    // PATCH: modificar solamente los datos enviados
-    protected void doPatch(HttpServletRequest request, HttpServletResponse response)
+    // PATCH: modificar parcialmente un usuario.
+    protected void doPatch(HttpServletRequest request,
+            HttpServletResponse response)
             throws ServletException, IOException {
 
         configurarRespuesta(response);
+
         int id = obtenerId(request);
 
         if (id <= 0) {
@@ -138,31 +175,52 @@ public class UsuarioServlet extends HttpServlet {
             if (actualizado.getFecha_creacion() == null) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 mapper.writeValue(response.getWriter(),
-                        Map.of("mensaje", "La fecha de creación es obligatoria."));
+                        Map.of("mensaje",
+                                "La fecha de creación es obligatoria."));
                 return;
+            }
+
+            if (actualizado.getContrasena() != null) {
+                if (actualizado.getContrasena().isBlank()) {
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    mapper.writeValue(response.getWriter(),
+                            Map.of("mensaje",
+                                    "La contraseña no puede estar vacía."));
+                    return;
+                }
+
+                actualizado.setContrasena(
+                        Password.encriptar(actualizado.getContrasena()));
             }
 
             if (dao.actualizar(actualizado)) {
                 mapper.writeValue(response.getWriter(),
-                        Map.of("mensaje", "Usuario modificado parcialmente."));
+                        Map.of("mensaje",
+                                "Usuario modificado parcialmente."));
             } else {
-                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                response.setStatus(
+                        HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 mapper.writeValue(response.getWriter(),
-                        Map.of("mensaje", "No se pudo modificar el usuario."));
+                        Map.of("mensaje",
+                                "No se pudo modificar el usuario."));
             }
+
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             mapper.writeValue(response.getWriter(),
-                    Map.of("mensaje", "No se pudieron procesar los datos enviados."));
+                    Map.of("mensaje",
+                            "No se pudieron procesar los datos enviados."));
         }
     }
 
-    // PUT: reemplazar los datos del usuario
+    // PUT: reemplazar los datos del usuario.
     @Override
-    protected void doPut(HttpServletRequest request, HttpServletResponse response)
+    protected void doPut(HttpServletRequest request,
+            HttpServletResponse response)
             throws ServletException, IOException {
 
         configurarRespuesta(response);
+
         int id = obtenerId(request);
 
         if (id <= 0) {
@@ -182,37 +240,52 @@ public class UsuarioServlet extends HttpServlet {
                 return;
             }
 
-            usuario u = mapper.readValue(request.getInputStream(), usuario.class);
+            usuario u = mapper.readValue(
+                    request.getInputStream(), usuario.class);
+
             u.setId_usuario(id);
 
-            if (u.getFecha_creacion() == null) {
+            if (u.getFecha_creacion() == null
+                    || u.getContrasena() == null
+                    || u.getContrasena().isBlank()) {
+
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 mapper.writeValue(response.getWriter(),
-                        Map.of("mensaje", "La fecha de creación es obligatoria."));
+                        Map.of("mensaje",
+                                "La fecha y la contraseña son obligatorias."));
                 return;
             }
 
+            u.setContrasena(Password.encriptar(u.getContrasena()));
+
             if (dao.actualizar(u)) {
                 mapper.writeValue(response.getWriter(),
-                        Map.of("mensaje", "Usuario actualizado correctamente."));
+                        Map.of("mensaje",
+                                "Usuario actualizado correctamente."));
             } else {
-                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                response.setStatus(
+                        HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 mapper.writeValue(response.getWriter(),
-                        Map.of("mensaje", "No se pudo actualizar el usuario."));
+                        Map.of("mensaje",
+                                "No se pudo actualizar el usuario."));
             }
+
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             mapper.writeValue(response.getWriter(),
-                    Map.of("mensaje", "Los datos enviados no tienen un formato válido."));
+                    Map.of("mensaje",
+                            "Los datos enviados no tienen un formato válido."));
         }
     }
 
-    // DELETE: eliminar un usuario
+    // DELETE: eliminar usuario.
     @Override
-    protected void doDelete(HttpServletRequest request, HttpServletResponse response)
+    protected void doDelete(HttpServletRequest request,
+            HttpServletResponse response)
             throws ServletException, IOException {
 
         configurarRespuesta(response);
+
         int id = obtenerId(request);
 
         if (id <= 0) {
@@ -228,13 +301,15 @@ public class UsuarioServlet extends HttpServlet {
         } else {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             mapper.writeValue(response.getWriter(),
-                    Map.of("mensaje", "No se encontró el usuario o no pudo eliminarse."));
+                    Map.of("mensaje",
+                            "No se encontró el usuario o no pudo eliminarse."));
         }
     }
 
-    // Habilitar PATCH
+    // Habilitar PATCH.
     @Override
-    protected void service(HttpServletRequest request, HttpServletResponse response)
+    protected void service(HttpServletRequest request,
+            HttpServletResponse response)
             throws ServletException, IOException {
 
         if ("PATCH".equalsIgnoreCase(request.getMethod())) {
@@ -244,4 +319,5 @@ public class UsuarioServlet extends HttpServlet {
         }
     }
 }
+
 
