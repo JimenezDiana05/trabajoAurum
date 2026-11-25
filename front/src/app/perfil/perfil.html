@@ -1,0 +1,65 @@
+<header class="account-header">
+    <a class="menu-home" routerLink="/"><span class="header-hamburger" aria-hidden="true"><i></i><i></i></span>Menú</a>
+    <a class="wordmark" routerLink="/" aria-label="Aurum, ir al inicio"><span>AURUM</span><small>Alta joyería</small></a>
+    <div class="header-actions">
+      <div class="account-menu">
+        <button class="icon-button account-link" type="button" aria-label="Abrir menú de usuario" aria-expanded="false">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.3"></circle><path d="M5.5 20c.5-3.5 2.8-5.3 6.5-5.3s6 1.8 6.5 5.3"></path></svg>
+        </button>
+        <nav class="account-dropdown" aria-label="Menú de usuario" hidden>
+          <p class="account-greeting">Hola, María</p>
+          <a routerLink="/perfil" aria-current="page">Perfil</a>
+          <a routerLink="/ayuda">Ayuda</a>
+          <a routerLink="/login">Cerrar sesión</a>
+        </nav>
+      </div>
+      <a class="icon-button cart-link" routerLink="/carrito" aria-label="Ir al carrito">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="20" r="1"></circle><circle cx="18" cy="20" r="1"></circle><path d="M3 4h2l2.4 11.2a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.6L21 8H6"></path></svg>
+        <span class="cart-count" aria-live="polite">0</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="account-main">
+    <section class="profile-card" aria-label="Información del perfil">
+      <div class="profile-photo-panel">
+        <img class="profile-photo" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&amp;fit=crop&amp;w=700&amp;q=85" alt="Retrato de María">
+        <p class="profile-since">Cliente AURUM desde 2023</p>
+      </div>
+      <form class="profile-fields">
+        <label class="auth-field wide">
+          <span>Nombre de usuario</span>
+          <input name="username" value="maria.aurum" autocomplete="username" required>
+        </label>
+        <label class="auth-field">
+          <span>Nombre</span>
+          <input name="firstName" value="María" autocomplete="given-name" required>
+        </label>
+        <label class="auth-field">
+          <span>Apellido paterno</span>
+          <input name="lastName" value="López" autocomplete="family-name" required>
+        </label>
+        <label class="auth-field">
+          <span>Apellido materno</span>
+          <input name="secondLastName" value="Hernández" autocomplete="additional-name">
+        </label>
+        <label class="auth-field">
+          <span>Número de teléfono</span>
+          <input name="phone" type="tel" value="+52 55 1234 5678" autocomplete="tel">
+        </label>
+        <label class="auth-field wide">
+          <span>Correo electrónico</span>
+          <input name="email" type="email" value="maria.lopez@gmail.com" autocomplete="email" required>
+        </label>
+        <button class="auth-button profile-save" type="submit">Guardar cambios</button>
+        <p class="auth-message profile-message" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+  </main>
+
+  <footer class="site-footer account-page-footer">
+    <a class="wordmark" routerLink="/">AURUM</a>
+    <p>Joyas para toda una vida.</p>
+    <small>Ciudad de México · Alta joyería</small>
+    <a class="back-to-top" href="#">Volver arriba ↑</a>
+  </footer>

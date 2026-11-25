@@ -1,0 +1,118 @@
+<body data-orders-view="active">
+  <header class="site-header">
+    <button class="icon-button menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false">
+      <span class="hamburger"><i></i><i></i></span>
+      <span class="menu-label">Menú</span>
+    </button>
+    <a class="wordmark" routerLink="/" aria-label="Aurum, ir al inicio"><span>AURUM</span><small>Alta joyería</small></a>
+    <div class="header-actions">
+      <div class="account-menu">
+        <button class="icon-button account-link" type="button" aria-label="Abrir menú de usuario" aria-expanded="false">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.3"></circle><path d="M5.5 20c.5-3.5 2.8-5.3 6.5-5.3s6 1.8 6.5 5.3"></path></svg>
+        </button>
+        <nav class="account-dropdown" aria-label="Menú de usuario" hidden>
+          <p class="account-greeting">Hola, María</p>
+          <a routerLink="/perfil">Perfil</a>
+          <a routerLink="/ayuda">Ayuda</a>
+          <a routerLink="/login">Cerrar sesión</a>
+        </nav>
+      </div>
+      <a class="icon-button cart-link" routerLink="/carrito" aria-label="Ir al carrito">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="20" r="1"></circle><circle cx="18" cy="20" r="1"></circle><path d="M3 4h2l2.4 11.2a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.6L21 8H6"></path></svg>
+        <span class="cart-count">0</span>
+      </a>
+    </div>
+  </header>
+
+  <nav class="site-menu" aria-label="Navegación principal" aria-hidden="true">
+    <div class="menu-heading"><a class="wordmark" routerLink="/">AURUM</a><button class="icon-button menu-close" type="button" aria-label="Cerrar menú">×</button></div>
+    <ol class="menu-links">
+      <li><a routerLink="/"><span>01</span>Inicio</a></li>
+      <li><a routerLink="/catalogo"><span>02</span>Catálogo</a></li>
+      <li><a routerLink="/pedidos" aria-current="page"><span>03</span>Pedidos</a></li>
+      <li><a routerLink="/carrito"><span>04</span>Carrito</a></li>
+    </ol>
+  </nav>
+  <div class="menu-backdrop" hidden></div>
+
+  <main class="orders-page">
+    <section class="orders-hero">
+      <p class="eyebrow">Tu historia con Aurum</p>
+      <h1>Estado de pedidos</h1>
+      <p>Consulta el trayecto y los detalles de cada una de tus piezas.</p>
+    </section>
+
+    <nav class="order-tabs" aria-label="Estado de pedidos">
+      <a class="order-tab is-active" routerLink="/pedidos" queryParamsHandling="preserve">En tránsito o pendientes <b>4</b></a>
+      <a class="order-tab" routerLink="/pedidos" [queryParams]="{ estado: 'entregados' }">Entregados <b>6</b></a>
+    </nav>
+
+    <section class="order-list active-orders" aria-label="Pedidos en tránsito">
+      <div id="new-orders"></div>
+      <article class="order-card">
+        <img src="https://images.unsplash.com/photo-1617038220319-276d3cfab638?auto=format&fit=crop&w=500&q=85" alt="Anillo Halo">
+        <div class="order-info"><p class="status">Preparando tu pieza</p><h2>Anillo Halo</h2></div>
+        <div class="order-meta"><small>Tipo de envío</small><strong>Envío asegurado</strong></div>
+        <div class="order-meta"><small>Entrega estimada</small><strong>9 oct 2025</strong></div>
+        <div class="order-meta"><small>Monto</small><strong>$12,600 MXN</strong></div>
+        <a class="detail-link" routerLink="/producto" [queryParams]="{ id: 'halo' }" [state]="{ returnUrl: '/pedidos' }">Ver detalle</a>
+      </article>
+      <article class="order-card">
+        <img src="https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=500&q=85" alt="Pendientes Lumière">
+        <div class="order-info"><p class="status">En preparación</p><h2>Pendientes Lumière</h2></div>
+        <div class="order-meta"><small>Tipo de envío</small><strong>Envío estándar</strong></div>
+        <div class="order-meta"><small>Entrega estimada</small><strong>12 oct 2025</strong></div>
+        <div class="order-meta"><small>Monto</small><strong>$8,990 MXN</strong></div>
+        <a class="detail-link" routerLink="/producto" [queryParams]="{ id: 'lumiere' }" [state]="{ returnUrl: '/pedidos' }">Ver detalle</a>
+      </article>
+      <article class="order-card">
+        <img src="https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=500&q=85" alt="Anillo Solitario Éclat">
+        <div class="order-info"><p class="status">Confirmado</p><h2>Anillo Solitario Éclat</h2></div>
+        <div class="order-meta"><small>Tipo de envío</small><strong>Envío asegurado</strong></div>
+        <div class="order-meta"><small>Entrega estimada</small><strong>15 oct 2025</strong></div>
+        <div class="order-meta"><small>Monto</small><strong>$32,100 MXN</strong></div>
+        <a class="detail-link" routerLink="/producto" [queryParams]="{ id: 'eclat' }" [state]="{ returnUrl: '/pedidos' }">Ver detalle</a>
+      </article>
+      <article class="order-card">
+        <img src="https://images.unsplash.com/photo-1611591437281-460bfbe1220a?auto=format&fit=crop&w=500&q=85" alt="Pulsera Rivière">
+        <div class="order-info"><p class="status">En tránsito</p><h2>Pulsera Rivière</h2></div>
+        <div class="order-meta"><small>Tipo de envío</small><strong>Envío asegurado</strong></div>
+        <div class="order-meta"><small>Entrega estimada</small><strong>18 oct 2025</strong></div>
+        <div class="order-meta"><small>Monto</small><strong>$18,490 MXN</strong></div>
+        <a class="detail-link" routerLink="/producto" [queryParams]="{ id: 'riviere' }" [state]="{ returnUrl: '/pedidos' }">Ver detalle</a>
+      </article>
+    </section>
+    <section class="order-list delivered-orders" aria-label="Pedidos entregados" hidden>
+      <article class="order-card">
+        <img src="https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=500&q=85" alt="Pendientes Lumière">
+        <div class="order-info"><p class="status">Entrega completada</p><h2>Pendientes Lumière</h2><small>N.º de orden AUR-188450</small></div>
+        <div class="order-meta"><small>Tipo de envío</small><strong>Envío asegurado</strong></div>
+        <div class="order-meta"><small>Fecha de entrega</small><strong>16 sep 2025</strong></div>
+        <div class="order-meta"><small>Monto</small><strong>$8,990 MXN</strong></div>
+        <a class="detail-link" routerLink="/producto" [queryParams]="{ id: 'lumiere' }" [state]="{ returnUrl: '/pedidos' }">Ver detalle</a>
+      </article>
+      <article class="order-card">
+        <img src="https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=500&q=85" alt="Alianza Celeste">
+        <div class="order-info"><p class="status">Entrega completada</p><h2>Alianza Celeste</h2><small>N.º de orden AUR-187832</small></div>
+        <div class="order-meta"><small>Tipo de envío</small><strong>Envío asegurado</strong></div>
+        <div class="order-meta"><small>Fecha de entrega</small><strong>1 sep 2025</strong></div>
+        <div class="order-meta"><small>Monto</small><strong>$9,810 MXN</strong></div>
+        <a class="detail-link" routerLink="/producto" [queryParams]="{ id: 'celeste' }" [state]="{ returnUrl: '/pedidos' }">Ver detalle</a>
+      </article>
+      <article class="order-card">
+        <img src="https://images.unsplash.com/photo-1611591437281-460bfbe1220a?auto=format&fit=crop&w=500&q=85" alt="Pulsera Rivière">
+        <div class="order-info"><p class="status">Entrega completada</p><h2>Pulsera Rivière</h2><small>N.º de orden AUR-187501</small></div>
+        <div class="order-meta"><small>Tipo de envío</small><strong>Envío asegurado</strong></div>
+        <div class="order-meta"><small>Fecha de entrega</small><strong>18 ago 2025</strong></div>
+        <div class="order-meta"><small>Monto</small><strong>$78,490 MXN</strong></div>
+        <a class="detail-link" routerLink="/producto" [queryParams]="{ id: 'riviere' }" [state]="{ returnUrl: '/pedidos' }">Ver detalle</a>
+      </article>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <a class="wordmark" routerLink="/">AURUM</a>
+    <p>Joyas para toda una vida.</p>
+    <small>Ciudad de México · 2025</small>
+    <a class="back-to-top" href="#">Volver arriba ↑</a>
+  </footer>
+</body>

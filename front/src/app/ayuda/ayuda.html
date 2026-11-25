@@ -1,0 +1,67 @@
+<header class="account-header">
+    <a class="menu-home" routerLink="/"><span class="header-hamburger" aria-hidden="true"><i></i><i></i></span>Menú</a>
+    <a class="wordmark" routerLink="/" aria-label="Aurum, ir al inicio"><span>AURUM</span><small>Alta joyería</small></a>
+    <div class="header-actions">
+      <div class="account-menu">
+        <button class="icon-button account-link" type="button" aria-label="Abrir menú de usuario" aria-expanded="false">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.3"></circle><path d="M5.5 20c.5-3.5 2.8-5.3 6.5-5.3s6 1.8 6.5 5.3"></path></svg>
+        </button>
+        <nav class="account-dropdown" aria-label="Menú de usuario" hidden>
+          <p class="account-greeting">Hola, María</p>
+          <a routerLink="/perfil">Perfil</a>
+          <a routerLink="/ayuda" aria-current="page">Ayuda</a>
+          <a routerLink="/login">Cerrar sesión</a>
+        </nav>
+      </div>
+      <a class="icon-button cart-link" routerLink="/carrito" aria-label="Ir al carrito">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="20" r="1"></circle><circle cx="18" cy="20" r="1"></circle><path d="M3 4h2l2.4 11.2a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.6L21 8H6"></path></svg>
+        <span class="cart-count" aria-live="polite">0</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="account-main help-main">
+    <section class="account-intro help-intro">
+      <p class="eyebrow">Asistencia AURUM</p>
+      <h1>Preguntas frecuentes</h1>
+      <p>Encuentra respuestas sobre nuestras piezas, entregas y cuidados.</p>
+    </section>
+
+    <section class="faq-content" aria-label="Preguntas frecuentes">
+      <label class="faq-search">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"></circle><path d="m16 16 5 5"></path></svg>
+        <span class="visually-hidden">Buscar una pregunta</span>
+        <input type="search" placeholder="Buscar una pregunta" autocomplete="off">
+      </label>
+      <div class="faq-list">
+        <article class="faq-item">
+          <h2><button class="faq-question" type="button" aria-expanded="true" aria-controls="faq-answer-1"><span class="faq-number">01</span><strong>¿Cómo puedo saber cuál es mi talla de anillo?</strong><span class="faq-toggle" aria-hidden="true">−</span></button></h2>
+          <p class="faq-answer" id="faq-answer-1">Puedes consultar nuestra guía de tallas o medir el diámetro interior de un anillo que ya te quede bien. Si necesitas ayuda, nuestro equipo puede asesorarte antes de realizar tu pedido.</p>
+        </article>
+        <article class="faq-item">
+          <h2><button class="faq-question" type="button" aria-expanded="false" aria-controls="faq-answer-2"><span class="faq-number">02</span><strong>¿Todas las piezas incluyen certificado de autenticidad?</strong><span class="faq-toggle" aria-hidden="true">+</span></button></h2>
+          <p class="faq-answer" id="faq-answer-2" hidden>Sí. Cada pieza AURUM se entrega con un certificado que describe sus materiales y características.</p>
+        </article>
+        <article class="faq-item">
+          <h2><button class="faq-question" type="button" aria-expanded="false" aria-controls="faq-answer-3"><span class="faq-number">03</span><strong>¿Cuánto tarda en llegar una pieza personalizada?</strong><span class="faq-toggle" aria-hidden="true">+</span></button></h2>
+          <p class="faq-answer" id="faq-answer-3" hidden>El tiempo depende del diseño y los materiales. Te compartiremos una fecha estimada al confirmar tu pedido.</p>
+        </article>
+        <article class="faq-item">
+          <h2><button class="faq-question" type="button" aria-expanded="false" aria-controls="faq-answer-4"><span class="faq-number">04</span><strong>¿Puedo cambiar o devolver una joya?</strong><span class="faq-toggle" aria-hidden="true">+</span></button></h2>
+          <p class="faq-answer" id="faq-answer-4" hidden>Las piezas no personalizadas pueden solicitar cambio o devolución dentro de los 30 días posteriores a la entrega, siempre que conserven su estado original.</p>
+        </article>
+        <article class="faq-item">
+          <h2><button class="faq-question" type="button" aria-expanded="false" aria-controls="faq-answer-5"><span class="faq-number">05</span><strong>¿Cómo debo cuidar mis joyas de oro y diamantes?</strong><span class="faq-toggle" aria-hidden="true">+</span></button></h2>
+          <p class="faq-answer" id="faq-answer-5" hidden>Guárdalas por separado y evita el contacto con perfumes, cloro y productos abrasivos. Para limpiarlas, usa un paño suave y seco.</p>
+        </article>
+      </div>
+      <p class="faq-empty" role="status" hidden>No encontramos preguntas que coincidan con tu búsqueda.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer account-page-footer">
+    <a class="wordmark" routerLink="/">AURUM</a>
+    <p>Joyas para toda una vida.</p>
+    <small>Ciudad de México · Alta joyería</small>
+    <a class="back-to-top" href="#">Volver arriba ↑</a>
+  </footer>

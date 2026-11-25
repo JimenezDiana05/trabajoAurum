@@ -1,0 +1,28 @@
+ <main class="auth-layout">
+    <aside class="auth-aside">
+      <a class="footer-mark" routerLink="/">AURUM<small>Alta joyería</small></a>
+      <div class="aside-caption">
+        <p>Piezas extraordinarias</p>
+        <h2>Tu historia merece un brillo eterno.</h2>
+      </div>
+    </aside>
+    <section class="auth-main">
+      <div class="auth-content recovery-content">
+        <p class="eyebrow">Seguridad de la cuenta</p>
+        <h1>Recuperar contraseña</h1>
+        <p class="auth-lead">Enviaremos un código de verificación al correo asociado con tu cuenta.</p>
+        <form class="auth-form recovery-form">
+          <div class="recovery-email-box">
+            <label for="recovery-email">Correo registrado</label>
+            <input id="recovery-email" name="email" type="email" placeholder="nombre@correo.com" autocomplete="email" required>
+          </div>
+          <div class="recovery-actions">
+            <a class="auth-button auth-button-secondary" routerLink="/login">Cancelar</a>
+            <button class="auth-button" type="submit">Enviar código</button>
+          </div>
+          <p class="auth-message" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+  <footer class="auth-footer"><small>Ciudad de México · Alta joyería</small></footer>

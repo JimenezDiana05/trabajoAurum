@@ -1,0 +1,108 @@
+<header class="site-header">
+  <button class="icon-button menu-toggle" type="button" aria-label="Abrir menú">
+    <span class="hamburger" aria-hidden="true"><i></i><i></i></span>
+    <span class="menu-label">Menú</span>
+  </button>
+  <a class="wordmark" routerLink="/" aria-label="Aurum, ir al inicio"><span>AURUM</span><small>Alta joyería</small></a>
+  <div class="header-actions">
+    <div class="account-menu">
+      <button class="icon-button account-link" type="button" aria-label="Abrir menú de usuario" aria-expanded="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.3"></circle><path d="M5.5 20c.5-3.5 2.8-5.3 6.5-5.3s6 1.8 6.5 5.3"></path></svg>
+      </button>
+      <nav class="account-dropdown" aria-label="Menú de usuario" hidden>
+        <p class="account-greeting">Hola, María</p>
+        <a routerLink="/perfil">Perfil</a>
+        <a routerLink="/ayuda">Ayuda</a>
+        <a routerLink="/login">Cerrar sesión</a>
+      </nav>
+    </div>
+    <a class="icon-button cart-toggle" routerLink="/carrito" aria-label="Ir al carrito">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="20" r="1"></circle><circle cx="18" cy="20" r="1"></circle><path d="M3 4h2l2.4 11.2a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.6L21 8H6"></path></svg>
+      <span class="cart-count" aria-live="polite">0</span>
+    </a>
+  </div>
+</header>
+
+<nav class="site-menu" aria-label="Navegación principal" aria-hidden="true">
+  <div class="menu-heading"><a class="wordmark" routerLink="/">AURUM</a><button class="icon-button menu-close" type="button" aria-label="Cerrar menú">×</button></div>
+  <ol class="menu-links">
+    <li><a routerLink="/"><span>01</span>Inicio</a></li>
+    <li><a routerLink="/catalogo"><span>02</span>Catálogo</a></li>
+    <li><a routerLink="/pedidos"><span>03</span>Pedidos</a></li>
+    <li><a routerLink="/carrito"><span>04</span>Carrito</a></li>
+  </ol>
+</nav>
+<div class="menu-backdrop" hidden></div>
+
+<main class="product-page">
+  <a class="product-back" [routerLink]="returnUrl"><span aria-hidden="true">‹</span> Regresar</a>
+  <section class="product-layout" aria-label="Detalle de producto">
+    <div class="product-gallery">
+      <div class="product-photo">
+        <img [src]="selectedImage" [alt]="product.name">
+      </div>
+      <div class="product-thumbnails" aria-label="Imágenes del producto">
+        @for (image of product.images; track $index; let index = $index) {
+          <button type="button" class="product-thumbnail" [class.is-active]="selectedImage === image" (click)="selectImage(image)" [attr.aria-label]="'Ver imagen ' + (index + 1) + ' de ' + product.name" [attr.aria-pressed]="selectedImage === image">
+            <img [src]="image" [alt]="product.name + ', imagen ' + (index + 1)">
+          </button>
+        }
+      </div>
+      <section class="product-description-block">
+        <p class="eyebrow">Descripción de la pieza</p>
+        <p>{{ product.longDescription }}</p>
+      </section>
+    </div>
+
+    <div class="product-copy">
+      <p class="product-kicker">{{ product.category }} · {{ product.collection }}</p>
+      <h1>{{ product.name }}</h1>
+      <p class="product-description">{{ product.description }}</p>
+      <strong class="product-price">{{ product.price }}</strong>
+
+      <div class="product-delivery">
+        <span>Tiempo aproximado</span>
+        <strong>{{ product.delivery }}</strong>
+      </div>
+
+      <label class="product-option">
+        <span>{{ product.optionLabel }}</span>
+        <select [value]="selectedOption" (change)="selectOption($event)" [attr.aria-label]="product.optionLabel">
+          @for (option of product.options; track option) {
+            <option [value]="option">{{ option }}</option>
+          }
+        </select>
+      </label>
+
+      @if (product.hasEngraving) {
+        <label class="product-engraving">
+          <span>Grabado opcional</span>
+          <input [value]="engraving" (input)="updateEngraving($event)" maxlength="18" placeholder="Hasta 18 caracteres">
+          <small>{{ engraving.length }}/18</small>
+        </label>
+      }
+
+      <div class="product-quantity">
+        <span>Cantidad</span>
+        <div class="quantity-control">
+          <button type="button" (click)="changeQuantity(-1)" aria-label="Disminuir cantidad" [disabled]="quantity <= 1">−</button>
+          <span aria-live="polite">{{ quantity }}</span>
+          <button type="button" (click)="changeQuantity(1)" aria-label="Aumentar cantidad">+</button>
+        </div>
+      </div>
+
+      <button class="product-add" type="button" (click)="addToCart()">
+        {{ addedToCart ? 'Agregado a la bolsa' : 'Agregar a la bolsa' }} — {{ totalPrice }}
+      </button>
+      <p class="product-add-status" role="status" aria-live="polite">{{ addMessage }}</p>
+      <p class="product-assurance">Envío asegurado de cortesía · Certificado de autenticidad</p>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <a class="wordmark" routerLink="/">AURUM</a>
+  <p>Joyas para toda una vida.</p>
+  <small>Ciudad de México · 2025</small>
+  <a class="back-to-top" href="#">Volver arriba ↑</a>
+</footer>
