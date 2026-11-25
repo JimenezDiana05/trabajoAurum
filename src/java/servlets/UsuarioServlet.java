@@ -48,7 +48,7 @@ public class UsuarioServlet extends HttpServlet {
         }
     }
 
-    // Evitar enviar contraseñas y hashes en las respuestas.
+    
     private void ocultarContrasena(usuario u) {
         if (u != null) {
             u.setContrasena(null);

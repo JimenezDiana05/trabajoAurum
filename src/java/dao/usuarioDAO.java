@@ -115,7 +115,7 @@ public class usuarioDAO {
         }
     }
     // BUSCAR USUARIO POR CORREO ELECTRONICO
-public usuario buscarPorCorreo(String correo) {
+    public usuario buscarPorCorreo(String correo) {
     String sql = "SELECT u.* "
             + "FROM usuario u "
             + "INNER JOIN cliente c ON u.id_cliente = c.id_cliente "

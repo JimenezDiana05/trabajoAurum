@@ -1,1 +1,14 @@
 /dist/
+
+# Archivos compilados y temporales
+/build/
+*.class
+*.dpf
+
+# Configuracion privada de NetBeans
+/nbproject/private/
+
+# Credenciales y variables de entorno
+.env
+.env.*
+!.env.example
