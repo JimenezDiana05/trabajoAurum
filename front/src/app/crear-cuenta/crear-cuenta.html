@@ -1,0 +1,55 @@
+<main class="auth-layout">
+    <aside class="auth-aside">
+      <a class="footer-mark" routerLink="/">AURUM<small>Alta joyería</small></a>
+      <div class="aside-caption">
+        <p>Piezas extraordinarias</p>
+        <h2>Tu historia merece un brillo eterno.</h2>
+      </div>
+    </aside>
+    <section class="auth-main">
+      <div class="auth-content register-content">
+        <p class="eyebrow">Forma parte de AURUM</p>
+        <h1>Crear una cuenta</h1>
+        <p class="auth-lead">Crea tu cuenta para guardar favoritos y seguir cada pedido.</p>
+        <form class="auth-form register-form">
+          <div class="register-grid">
+            <label class="auth-field">
+              <span>Nombre</span>
+              <input name="firstName" autocomplete="given-name" required>
+            </label>
+            <label class="auth-field">
+              <span>Apellido</span>
+              <input name="lastName" autocomplete="family-name" required>
+            </label>
+            <label class="auth-field wide">
+              <span>Número de teléfono</span>
+              <input name="phone" type="tel" autocomplete="tel" required>
+            </label>
+            <label class="auth-field wide">
+              <span>Correo electrónico</span>
+              <input name="email" type="email" autocomplete="email" required>
+            </label>
+            <label class="auth-field wide">
+              <span>Contraseña</span>
+              <input class="register-password" name="password" type="password" autocomplete="new-password" minlength="8" required>
+            </label>
+          </div>
+          <div class="password-hints" aria-live="polite">
+            <span data-rule="length">Al menos 8 caracteres</span>
+            <span data-rule="uppercase">Una letra mayúscula</span>
+            <span data-rule="special">Un carácter especial</span>
+          </div>
+          <label class="auth-field">
+            <span>Verificar contraseña</span>
+            <input class="register-confirm" name="confirmPassword" type="password" autocomplete="new-password" required>
+          </label>
+          <p class="auth-message password-message" role="status" aria-live="polite"></p>
+          <div class="register-actions">
+            <button class="auth-button register-submit" type="submit" disabled>Registrar</button>
+            <a class="auth-button auth-button-secondary" routerLink="/login">Cancelar</a>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+  <footer class="auth-footer"><small>Ciudad de México · Alta joyería</small><a routerLink="/">Volver a AURUM</a></footer>

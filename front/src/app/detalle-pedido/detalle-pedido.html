@@ -1,0 +1,58 @@
+<header class="account-header">
+  <a class="menu-home" routerLink="/"><span class="header-hamburger" aria-hidden="true"><i></i><i></i></span>Menú</a>
+  <a class="wordmark" routerLink="/" aria-label="Aurum, ir al inicio"><span>AURUM</span><small>Alta joyería</small></a>
+  <div class="header-actions">
+    <a class="icon-button cart-link" routerLink="/carrito" aria-label="Ir al carrito">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="20" r="1"></circle><circle cx="18" cy="20" r="1"></circle><path d="M3 4h2l2.4 11.2a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.6L21 8H6"></path></svg>
+    </a>
+  </div>
+</header>
+
+<main class="checkout-page">
+  <a class="checkout-back" routerLink="/carrito"><span aria-hidden="true">←</span> Volver al carrito</a>
+  <div class="checkout-heading">
+    <p class="eyebrow">Finalizar compra</p>
+    <h1>Detalles del pedido</h1>
+  </div>
+  <div class="checkout-layout">
+    <form class="checkout-form" novalidate>
+      <section class="checkout-section">
+        <p class="section-number">01</p><h2>Datos de contacto</h2>
+        <div class="checkout-grid">
+          <label><span>Nombre</span><input name="firstName" autocomplete="given-name" minlength="2" pattern="[A-Za-zÁÉÍÓÚÑáéíóúñ ]+" required></label>
+          <label><span>Apellido</span><input name="lastName" autocomplete="family-name" minlength="2" pattern="[A-Za-zÁÉÍÓÚÑáéíóúñ ]+" required></label>
+          <label><span>Correo electrónico</span><input name="email" type="email" autocomplete="email" required></label>
+          <label><span>Teléfono</span><input name="phone" type="tel" inputmode="numeric" autocomplete="tel" pattern="[0-9]{10}" minlength="10" maxlength="10" required></label>
+        </div>
+      </section>
+      <section class="checkout-section">
+        <p class="section-number">02</p><h2>Dirección de envío</h2>
+        <div class="checkout-grid">
+          <label class="wide"><span>Calle y número</span><input name="address" autocomplete="street-address" minlength="5" required></label>
+          <label><span>Colonia o localidad</span><input name="neighborhood" minlength="2" required></label>
+          <label><span>Código postal</span><input name="postalCode" inputmode="numeric" pattern="[0-9]{5}" minlength="5" maxlength="5" autocomplete="postal-code" required></label>
+          <label><span>Ciudad</span><input name="city" minlength="2" autocomplete="address-level2" required></label>
+          <label><span>Estado</span><input name="state" minlength="2" autocomplete="address-level1" required></label>
+        </div>
+      </section>
+      <section class="checkout-section">
+        <p class="section-number">03</p><h2>Pago seguro</h2>
+        <div class="checkout-grid">
+          <label class="wide"><span>Nombre en la tarjeta</span><input name="cardName" autocomplete="cc-name" minlength="4" required></label>
+          <label class="wide"><span>Número de tarjeta</span><input name="cardNumber" inputmode="numeric" autocomplete="cc-number" placeholder="0000 0000 0000 0000" minlength="19" maxlength="19" required></label>
+          <label><span>Vencimiento</span><input name="expiry" inputmode="numeric" autocomplete="cc-exp" placeholder="MM / AA" maxlength="7" required></label>
+          <label><span>CVV</span><input name="cvv" type="password" inputmode="numeric" autocomplete="cc-csc" minlength="3" maxlength="4" required></label>
+        </div>
+      </section>
+      <p class="checkout-status" role="status" aria-live="polite"></p>
+      <button class="place-order" type="submit">Confirmar pedido</button>
+    </form>
+    <aside class="checkout-summary">
+      <p class="eyebrow">Resumen</p><h2>Tu pedido</h2>
+      <div class="checkout-items" id="checkout-items" aria-label="Productos de tu pedido"></div>
+      <div class="summary-line"><span>Piezas</span><strong class="checkout-count">0 piezas</strong></div>
+      <div class="summary-line"><span>Envío</span><strong>De cortesía</strong></div>
+      <div class="summary-total"><span>Total</span><strong class="checkout-total">$0</strong></div>
+    </aside>
+  </div>
+</main>

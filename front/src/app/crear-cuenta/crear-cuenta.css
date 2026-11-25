@@ -1,0 +1,21 @@
+@import '../login/login.css';
+
+.register-content { max-width: 650px; }
+.register-content .auth-lead { margin-bottom: 27px; }
+.register-form { gap: 17px; }
+.register-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.register-grid .wide { grid-column: 1 / -1; }
+.password-hints { display: flex; justify-content: space-between; gap: 8px; margin: 2px 0 0; }
+.password-hints span { color: var(--muted); font-size: 8px; }
+.password-hints span::before { content: "○"; margin-right: 5px; color: #989487; font-size: 12px; }
+.password-hints span.is-valid::before { content: "●"; color: #71915b; }
+.register-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 2px; }
+.register-actions .auth-button { min-height: 45px; }
+.register-submit:disabled { border-color: #aaa9a5; background: #aaa9a5; color: #fff; cursor: not-allowed; }
+
+@media (max-width: 500px) {
+  .register-grid { grid-template-columns: 1fr; gap: 15px; }
+  .register-grid .wide { grid-column: auto; }
+  .password-hints { flex-wrap: wrap; }
+  .register-actions { grid-template-columns: 1fr; }
+}

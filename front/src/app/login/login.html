@@ -1,0 +1,33 @@
+  <main class="auth-layout">
+    <aside class="auth-aside">
+      <a class="footer-mark" routerLink="/">AURUM<small>Alta joyería</small></a>
+      <div class="aside-caption">
+        <p>Piezas extraordinarias</p>
+        <h2>Tu historia merece un brillo eterno.</h2>
+      </div>
+    </aside>
+    <section class="auth-main">
+      <div class="auth-content login-content">
+        <p class="eyebrow">Bienvenida de nuevo</p>
+        <h1>Iniciar sesión</h1>
+        <p class="auth-lead">Accede a tus pedidos, favoritos y piezas seleccionadas.</p>
+        <form class="auth-form login-form" action="inicio.html">
+          <label class="auth-field">
+            <span>Usuario o correo</span>
+            <input name="username" type="text" autocomplete="username">
+          </label>
+          <label class="auth-field">
+            <span>Contraseña</span>
+            <input name="password" type="password" autocomplete="current-password">
+          </label>
+          <div class="auth-options"><a class="auth-link" routerLink="/recuperar-contrasena">Recuperar contraseña</a></div>
+          <div class="login-actions">
+            <button class="auth-button" type="submit">Entrar</button>
+            <a class="auth-button auth-button-secondary" routerLink="/crear-cuenta">Registrarme</a>
+          </div>
+          <p class="auth-message" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+  <footer class="auth-footer"><small>Ciudad de México · Alta joyería</small></footer>

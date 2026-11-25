@@ -1,0 +1,73 @@
+  <header class="site-header">
+    <button class="icon-button menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="site-menu">
+      <span class="hamburger" aria-hidden="true"><i></i><i></i></span>
+      <span class="menu-label">Menú</span>
+    </button>
+    <a class="wordmark" routerLink="/" aria-label="Aurum, ir al inicio"><span>AURUM</span><small>Alta joyería</small></a>
+    <div class="header-actions">
+      <div class="account-menu">
+        <button class="icon-button account-link" type="button" aria-label="Abrir menú de usuario" aria-expanded="false">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.3"></circle><path d="M5.5 20c.5-3.5 2.8-5.3 6.5-5.3s6 1.8 6.5 5.3"></path></svg>
+        </button>
+        <nav class="account-dropdown" aria-label="Menú de usuario" hidden>
+          <p class="account-greeting">Hola, María</p>
+          <a routerLink="/perfil">Perfil</a>
+          <a routerLink="/ayuda">Ayuda</a>
+          <a routerLink="/login">Cerrar sesión</a>
+        </nav>
+      </div>
+      <a class="icon-button cart-toggle" routerLink="/carrito" aria-label="Ir al carrito">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="20" r="1"></circle><circle cx="18" cy="20" r="1"></circle><path d="M3 4h2l2.4 11.2a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.6L21 8H6"></path></svg>
+        <span class="cart-count" aria-live="polite">0</span>
+      </a>
+    </div>
+  </header>
+
+  <nav class="site-menu" id="site-menu" aria-label="Navegación principal" aria-hidden="true">
+    <div class="menu-heading">
+      <a class="wordmark" routerLink="/">AURUM</a>
+      <button class="icon-button menu-close" type="button" aria-label="Cerrar menú">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"></path></svg>
+      </button>
+    </div>
+    <ol class="menu-links">
+      <li><a routerLink="/"><span>01</span>Inicio</a></li>
+      <li><a routerLink="/catalogo"><span>02</span>Catálogo</a></li>
+      <li><a routerLink="/pedidos"><span>03</span>Pedidos</a></li>
+      <li><a routerLink="/carrito" aria-current="page"><span>04</span>Carrito <b class="menu-cart-count">0</b></a></li>
+    </ol>
+  </nav>
+  <div class="menu-backdrop" hidden></div>
+  <main class="cart-page">
+    <nav class="breadcrumb" aria-label="Migas de pan"><a routerLink="/">Inicio</a><span>›</span><strong>Carrito</strong></nav>
+    <section class="cart-heading"><div><p class="eyebrow">Tu selección Aurum</p><h1>Carrito</h1></div><p class="selected-count">2 piezas seleccionadas</p></section>
+    <section class="cart-layout">
+      <div class="cart-list" id="cart-list">
+        <p class="cart-empty">Cargando tu selección...</p>
+      </div>
+      <aside class="order-summary">
+        <p class="eyebrow">Detalle de compra</p>
+        <h2>Resumen del Pedido</h2>
+        <div class="summary-row"><span>Subtotal:</span><strong id="subtotal">$56,700</strong></div>
+        <div class="summary-row"><span>Envío:</span><strong>$0</strong></div>
+        <div class="summary-total"><span>Total (IVA incl.):</span><strong id="total">$56,700</strong></div>
+        <button class="checkout-button" type="button">Proceder al pago</button>
+        <p class="secure-note">Pago seguro · Envío asegurado de cortesía</p>
+      </aside>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <a class="wordmark" routerLink="/">AURUM</a>
+    <p>Joyas para toda una vida.</p>
+    <small>Ciudad de México · 2025</small>
+    <a class="back-to-top" href="#">Volver arriba ↑</a>
+  </footer>
+
+  <div class="payment-backdrop" hidden></div>
+  <section class="payment-modal" role="dialog" aria-modal="true" aria-labelledby="payment-modal-title" hidden>
+    <button class="payment-modal-close" type="button" aria-label="Cerrar">×</button>
+    <p class="eyebrow">Compra protegida</p>
+    <h2 id="payment-modal-title">Todo listo para pagar</h2>
+    <p>Serás dirigido a nuestro proceso de pago seguro para completar tu pedido por <strong class="payment-modal-total">$56,700</strong>.</p>
+    <button class="payment-modal-continue" type="button">Continuar</button>
+  </section>

@@ -1,0 +1,13 @@
+@import '../login/login.css';
+
+.recovery-content { max-width: 570px; }
+.recovery-content .auth-lead { margin-bottom: 35px; }
+.recovery-email-box { padding: 19px 20px; border: 1px solid var(--line); background: rgba(255,255,255,.25); }
+.recovery-email-box label { display: block; margin-bottom: 9px; color: #34516a; font-size: 8px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; }
+.recovery-email-box input { width: 100%; padding: 0; border: 0; outline: 0; background: transparent; color: #173a53; font: 400 16px var(--serif); }
+.recovery-email-box input::placeholder { color: #8d8a82; font: 300 12px var(--sans); }
+.recovery-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.recovery-actions a { display: flex; align-items: center; justify-content: center; }
+@media (max-width: 420px) {
+  .recovery-actions { grid-template-columns: 1fr; }
+}

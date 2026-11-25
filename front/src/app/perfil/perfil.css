@@ -1,0 +1,67 @@
+@import '../inicio/inicio.css';
+
+.account-header {
+  height: 104px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: center;
+  padding: 0 5.3%;
+  border-bottom: 1px solid var(--line);
+  background: rgba(244, 243, 237, .92);
+}
+
+.account-header > .wordmark { justify-self: center; text-align: center; }
+.account-header .wordmark span { display: block; font: 400 25px var(--serif); letter-spacing: .2em; }
+.account-header .wordmark small { color: var(--gold); font: 500 7px var(--sans); letter-spacing: .25em; text-transform: uppercase; }
+.account-header .header-actions { justify-self: end; display: flex; align-items: center; gap: 12px; }
+.account-header .icon-button { display: inline-grid; place-items: center; padding: 7px; border: 0; background: transparent; cursor: pointer; }
+.account-header .cart-link { position: relative; }
+.account-header .cart-count { position: absolute; top: -2px; right: -3px; min-width: 15px; height: 15px; display: grid; place-items: center; border-radius: 50%; background: var(--gold); color: #fff; font-size: 8px; }
+.account-header svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.35; stroke-linecap: round; }
+.account-header .menu-home { display: inline-flex; align-items: center; gap: 10px; font-size: 8px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; }
+.header-hamburger { width: 18px; height: 12px; display: flex; flex-direction: column; justify-content: space-between; }
+.header-hamburger i { width: 100%; height: 1px; background: currentColor; }
+.account-main { min-height: calc(100svh - 104px - 190px); display: flex; align-items: center; padding: 20px 1.7% 32px; background: var(--paper); }
+.account-intro { margin: 0 auto 61px; text-align: center; }
+.account-intro .eyebrow { margin-bottom: 14px; }
+.account-intro h1 { margin: 0; font: 400 clamp(48px, 6vw, 65px)/1.05 var(--serif); letter-spacing: -.04em; }
+.account-intro > p:last-child { margin: 22px 0 0; color: #5f83a0; font: 300 16px/1.6 var(--serif); }
+.profile-card { width: 100%; max-width: 1195px; min-height: 466px; display: grid; grid-template-columns: 380px minmax(0, 1fr); margin: 0 auto; border: 1px solid var(--line); background: rgba(255,255,255,.22); }
+.profile-photo-panel { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 28px 35px 22px; background: rgba(221,216,202,.58); }
+.profile-photo { width: 275px; height: 380px; object-fit: cover; object-position: center 20%; background: #8e8cb5; }
+.profile-since { margin: 18px 0 0; color: #a57937; font-size: 8px; font-weight: 500; letter-spacing: .15em; text-align: center; text-transform: uppercase; }
+.profile-fields { display: grid; grid-template-columns: 1fr 1fr; align-content: start; gap: 28px 28px; padding: 54px 54px 38px; }
+.profile-fields .wide { grid-column: 1 / -1; }
+.profile-fields .auth-field { display: block; min-width: 0; }
+.profile-fields .auth-field > span { display: block; margin-bottom: 9px; color: #34516a; font-size: 8px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }
+.profile-fields .auth-field input { width: 100%; height: 43px; padding: 7px 0 11px; border: 0; border-bottom: 1px solid #77746d; border-radius: 0; outline: 0; background: transparent; color: #173a53; font: 400 16px var(--serif); }
+.profile-fields .auth-field input:focus { border-bottom-color: var(--ink); }
+.profile-save { width: max-content; min-width: 140px; height: 48px; margin-top: 12px; border: 0; background: #24231f; color: #fff; cursor: pointer; font-size: 8px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }
+.profile-save:hover { background: #45433d; }
+.profile-message { grid-column: 1 / -1; min-height: 15px; margin: 0; color: #476648; font-size: 11px; }
+.account-page-footer { min-height: 190px; }
+.site-footer { position: relative; min-height: 190px; padding: 40px 8.2%; background: #24231f; color: var(--paper); }
+.site-footer .wordmark { display: inline-block; font: 400 19px var(--serif); letter-spacing: .19em; }
+.site-footer p { margin: 12px 0 22px; color: #d3cfc5; font: italic 14px var(--serif); }
+.site-footer small { color: #a49f92; font-size: 8px; letter-spacing: .12em; text-transform: uppercase; }
+.back-to-top { position: absolute; right: 8.2%; bottom: 40px; color: #d3cfc5; font-size: 9px; letter-spacing: .1em; text-transform: uppercase; }
+
+@media (max-width: 700px) {
+  .account-header { height: 67px; padding: 0 4%; }
+  .account-header .wordmark span { font-size: 20px; }
+  .account-main { min-height: auto; display: block; padding: 32px 5% 50px; }
+  .account-intro { margin-bottom: 35px; }
+  .account-intro h1 { font-size: 48px; }
+  .account-intro > p:last-child { font-size: 14px; }
+  .profile-card { grid-template-columns: 1fr; }
+  .profile-photo-panel { padding: 22px; }
+  .profile-photo { width: min(275px, 100%); height: 330px; margin: auto; }
+  .profile-fields { padding: 32px 24px; }
+  .site-footer { padding: 36px 6%; }
+  .back-to-top { right: 6%; bottom: 38px; font-size: 8px; }
+}
+
+@media (max-width: 420px) {
+  .profile-fields { grid-template-columns: 1fr; gap: 16px; }
+  .profile-fields .wide, .profile-message { grid-column: auto; }
+}
